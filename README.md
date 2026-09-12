@@ -29,8 +29,8 @@ Watch live sessions at https://www.browserbase.com/sessions
 
 | Capability | Classification | Local evidence | Live evidence | Limitation |
 |---|---|---|---|---|
-| Browserbase CLI + API key | built | `browse --version`, `browse cloud projects list` | session list / replay after a remote open | Free plan: no Proxies, no Verified, Model Gateway capped at $5 |
-| Full-page screenshot of browserbase.com | planned until the first remote run | screenshot path under `evidence/` | session replay URL | Needs a live Browserbase session |
+| Browserbase CLI + API key | built | `browse --version` (`0.9.6`), `browse cloud projects list` | key listed the Production project | Free plan: no Proxies, no Verified, Model Gateway capped at $5 |
+| Full-page screenshot of browserbase.com | built | `evidence/browserbase-home-full.png` (1273x7882 PNG) | https://www.browserbase.com/sessions/1b72706a-bbe8-43fd-8561-7903122ac919 (COMPLETED) | One-off onboarding capture, not a product feature |
 | Product prototype | not in scope | — | — | Product concept not chosen yet |
 
 ## Disclosures (draft)
