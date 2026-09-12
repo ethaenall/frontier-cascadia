@@ -1,0 +1,11 @@
+[project]
+name = "suvidha-hackathon"
+version = "0.1.0"
+description = "Private Suvidha hackathon workspace"
+requires-python = ">=3.10"
+dependencies = [
+    "daytona",
+]
+
+[tool.uv]
+package = false
