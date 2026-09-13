@@ -20,3 +20,29 @@ __pycache__/
 
 # Browse CLI local state
 .browse/
+
+# Local sensor sessions, tokens and hardware backups
+.local/
+recordings/
+firmware/build/
+firmware/.cache/
+firmware/backups/
+.pytest_cache/
+
+# Never publish local evidence, signing state, or generated artifacts
+evidence/**
+!evidence/.gitkeep
+!evidence/browserbase-home-full.png
+**/xcuserdata/
+**/.swiftpm/
+**/.build/
+**/.arduino-user/
+**/.downloads/
+**/.tmp/
+**/DerivedData/
+*.xcresult/
+*.app/
+*.ipa
+*.p12
+*.mobileprovision
+firmware/arduino-cli.local.yaml

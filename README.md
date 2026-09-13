@@ -1,49 +1,65 @@
-# Frontier Cascadia (private)
+# Threshold · Frontier Cascadia
 
-Private workspace for **Frontier Cascadia**, September 12, 2026.
+A local-first entrance-monitoring prototype with a native iPhone camera demo, a synthetic radio-lab workflow, and a cinematic browser presentation.
 
-Not Suvidha. That was the wrong event.
+Built for [Frontier Cascadia](https://frontiercascadia.org/). **Research/demo software—not a certified security system or emergency service.**
 
-Event: https://frontiercascadia.org/
+## What is here
 
-12 hours. High school. In-person at UW Foster (Seattle) or remote. The public standard is whether the software works.
+- **iPhone camera demo:** SwiftUI interface with on-device person detection in a fixed doorway region. Keep the phone stationary, well lit, and in the foreground. The camera path is implemented; independent physical acceptance remains pending.
+- **Rehearsal / TEST:** explicitly synthetic input for demonstrating calibration, arming, a latched alert, acknowledgement, and disarming. Synthetic results are not evidence of physical sensing.
+- **Local radio backend:** Python/FastAPI, authenticated controls, stream-health checks, recording/replay, and a browser dashboard.
+- **Cinematic presentation:** an offline-capable browser walkthrough with clearly labelled synthetic visuals and recorded TEST screenshots.
+- **Experimental firmware:** Arduino Nano ESP32 / ESP32-S3 CSI sender and receiver sources, with upstream attribution.
 
-Allowed before hacking starts: plan, sketch, docs, empty repo, boilerplate, dependencies. Product logic is written on the day.
+## Important limits
 
-## Tools already wired
+**Real received Wi-Fi CSI and physical motion detection are not verified.** Transmit/ACK success does not establish reception, occupancy, exact-zone tracking, direction, or falls. The planned camera-free path requires compatible router and sensing hardware; arbitrary home-router compatibility is not claimed.
 
-- **Browserbase** — cloud Chrome for agents (`browse` CLI, `BROWSERBASE_API_KEY`). Sponsor. Developer plan: proxies + full Model Gateway. Verified is Scale-only.
-- **Daytona** — isolated sandboxes for running code (`daytona` SDK/CLI, `DAYTONA_API_KEY`). Sponsor.
-- **Mobbin Pro** — UI reference via MCP (connected in Prime Agent, not in this repo).
+Calls are disabled/dry-run by default. No emergency delivery, background alert reliability, or production security certification is claimed. A stream fault is not an all-clear. The camera demo is separate from the shared radio alarm.
 
-Never commit `.env`.
+## Run the local TEST dashboard
 
-## Local setup
+Requires Python 3.10+ and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-cd /Users/Ethan/Developer/frontier-cascadia
-cp .env.example .env   # then add keys
-uv sync
-set -a && source .env && set +a
-browse cloud projects list
-uv run python scripts/daytona_hello.py
-daytona list
+git clone https://github.com/ethaenall/frontier-cascadia.git
+cd frontier-cascadia
+uv sync --locked
+uv run python -m threshold --mode test
 ```
 
-## Claims
+Use the local address printed by the process. Pair using its locally stored control token; never put tokens in URLs, screenshots, or commits. Keep the server on localhost or a trusted private network. Do not start a second collector against an active hardware session.
 
-| Capability | Classification | Local evidence | Live evidence | Limitation |
-|---|---|---|---|---|
-| Browserbase CLI + API key | built | `browse --version` (`0.9.6`) | session https://www.browserbase.com/sessions/1b72706a-bbe8-43fd-8561-7903122ac919 | Developer plan; Verified is Scale-only |
-| Daytona SDK + API key | built | `uv run python scripts/daytona_hello.py` printed Hello World | sandbox created then deleted | CLI 0.211.2 vs API 0.213.0 warning |
-| Product prototype | not in scope | — | — | Logic waits until hacking; concept not chosen |
+Demo sequence: **Enable sound → Calibrate → Arm → labelled synthetic motion → Acknowledge → Disarm.** Browser audio needs a user gesture and is not guaranteed in background tabs.
 
-## Disclosures (draft)
+```bash
+uv run --locked pytest -q
+```
 
-- Prime Agent / coding assistant: repo setup, Browserbase and Daytona onboarding
-- Browserbase, Daytona, Mobbin: event partners / tools
-- No product feature logic yet
+Tests are included. This public packaging pass did not rerun the full test suite or physical-device checks.
 
-## Event notes
+## iPhone
 
-See `docs/frontier-cascadia.md`.
+Open `ios/Threshold.xcodeproj` in Xcode. Choose your own signing team for a physical device. The domain package is in `ios/Domain`; app-host and UI tests are also included. Camera permissions and real-device behavior require your own verification.
+
+## Browser presentation
+
+```bash
+uv run python scripts/present.py
+```
+
+See [`static/cinematic/README.md`](static/cinematic/README.md) for options and labels. This presentation is not a live sensor feed.
+
+## Privacy and safety
+
+This source release excludes local `.env` credentials, recordings, control tokens, hardware backups, Xcode user state, and private test evidence. `.env.example` contains empty credential placeholders. Optional Browserbase/Daytona tools are developer utilities, not required sensing services; using cloud tools may create billable resources.
+
+## Credits and disclosures
+
+- User-directed Prime Agent and coding assistants helped with setup, implementation, debugging, tests, and documentation. Physical testing and release decisions remain with the project lead.
+- Three.js is MIT licensed; see [`LICENSE.three`](static/cinematic/vendor/LICENSE.three). Recorded UI images are our synthetic TEST interface captures; provenance is in [`assets/PROVENANCE.json`](static/cinematic/assets/PROVENANCE.json).
+- Espressif CSI reference material and license records are in [`firmware/provenance`](firmware/provenance), including Apache-2.0 notices.
+- Browserbase, Daytona, and Mobbin were development tools/references. The historical Browserbase screenshot shows its public marketing site, not a product feature.
+
+Public source availability does not grant a new license to third-party material. Retained dependency licenses govern their respective code.

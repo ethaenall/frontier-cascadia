@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#171916">
+  <title>Threshold · Motion near entrance</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to controls</a>
+  <div class="app-shell">
+    <header class="site-header">
+      <a class="wordmark" href="/" aria-label="Threshold home"><span class="brand-mark" aria-hidden="true"><i></i><i></i></span>Threshold<span class="wordmark-period">.</span></a>
+      <div class="header-tools" id="header-tools" hidden>
+        <button class="button quiet sound-toggle" id="sound-toggle" type="button" aria-pressed="false">Sound off</button>
+        <button class="button quiet" id="logout" type="button">Unpair</button>
+      </div>
+      <span class="local-label" id="local-label">LOCAL CONSOLE</span>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <section class="pairing" id="pairing" aria-labelledby="pairing-title">
+        <div class="pairing-intro">
+          <p class="eyebrow">RADIO ACTIVITY / LOCAL ALERTS</p>
+          <h1 id="pairing-title">A signal.<br>Not an assumption.</h1>
+          <p class="pairing-description">Monitor motion near an entrance. Calibrate the empty area, watch the activity, and arm a local alert.</p>
+          <p class="pairing-limitation">No occupancy or direction inference. Crossing discrimination is not validated.</p>
+        </div>
+        <form id="pair-form" class="pair-form" autocomplete="off">
+          <span class="section-number" aria-hidden="true">01 / ACCESS</span>
+          <h2>Pair this browser</h2>
+          <p>Paste the access token from this server’s local token file. It is exchanged for a private session cookie.</p>
+          <label for="token">Local access token</label>
+          <input id="token" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" required aria-describedby="token-help" placeholder="Paste your token">
+          <p class="field-help" id="token-help">The token is not saved in this browser. Use only a trusted local connection.</p>
+          <button class="button primary pair-submit" id="pair-submit" type="submit">Pair browser <span aria-hidden="true">↗</span></button>
+          <p class="form-message" id="pair-message" role="status">Checking for an existing session…</p>
+        </form>
+      </section>
+
+      <div id="dashboard" hidden>
+        <section class="source-banner" id="source-banner" aria-label="Data source">
+          <strong class="mode-badge" id="source-mode">—</strong>
+          <p id="source-explanation">Waiting for the server to identify its source.</p>
+        </section>
+
+        <div class="area-heading">
+          <div><p class="eyebrow">MONITORED AREA</p><h1 id="area-name">Entrance</h1></div>
+          <div class="session-note"><span class="tiny-dot" aria-hidden="true"></span>Local monitoring<br><span id="updated-at">Awaiting response</span></div>
+        </div>
+
+        <section class="connection-strip" id="connection-strip" data-health="connecting" aria-labelledby="connection-title">
+          <div class="connection-title"><span class="status-dot" aria-hidden="true"></span><div><p class="eyebrow" id="connection-title">CONNECTION HEALTH</p><strong id="health-status">Connecting</strong></div></div>
+          <p id="health-detail">Checking the data stream.</p>
+          <div class="rate"><strong id="packet-rate">—</strong><span>packets / sec</span></div>
+        </section>
+
+        <div class="workspace">
+          <section class="signal-panel" aria-labelledby="signal-title">
+            <div class="section-heading"><h2 id="signal-title">Activity signal</h2><span class="small-label" id="graph-window">No samples yet</span></div>
+            <div class="score-row"><div><span class="activity-score" id="activity-score">—</span><span class="score-unit">dimensionless score</span></div><div class="threshold-readout"><span class="small-label">THRESHOLD</span><strong id="threshold-value">—</strong></div></div>
+            <div class="graph-wrap">
+              <svg id="activity-graph" viewBox="0 0 720 228" role="img" aria-labelledby="graph-title graph-description" preserveAspectRatio="none">
+                <title id="graph-title">Recent activity and detection threshold</title>
+                <desc id="graph-description">No activity samples are available.</desc>
+                <defs><linearGradient id="signal-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d5dea0" stop-opacity=".16"/><stop offset="100%" stop-color="#d5dea0" stop-opacity="0"/></linearGradient></defs>
+                <g class="graph-grid" aria-hidden="true"><path d="M0 24H720 M0 86H720 M0 148H720 M0 210H720"/><path d="M120 10V210 M240 10V210 M360 10V210 M480 10V210 M600 10V210"/></g>
+                <path id="graph-area" fill="url(#signal-fill)" d=""/>
+                <line id="graph-threshold" x1="0" x2="720" y1="100" y2="100" class="threshold-line" visibility="hidden"/>
+                <path id="graph-line" class="signal-line" d=""/>
+                <circle id="graph-end" r="3.5" class="graph-end" visibility="hidden"/>
+              </svg>
+              <p class="graph-empty" id="graph-empty">Waiting for valid activity samples</p>
+            </div>
+            <div class="graph-footer"><span id="graph-start">RECENT HISTORY</span><div class="graph-legend"><span><i class="legend-signal"></i>Activity</span><span><i class="legend-threshold"></i>Threshold</span></div><span>LATEST</span></div>
+            <p class="signal-note" id="signal-note">Calibrate before interpreting the activity score.</p>
+            <div class="signal-meta"><span>Last sample <strong id="sample-age">—</strong></span><span>Valid packets <strong id="valid-packets">—</strong></span><span>Invalid <strong id="invalid-packets">—</strong></span></div>
+          </section>
+
+          <aside class="control-panel" aria-labelledby="control-title">
+            <div class="section-heading"><h2 id="control-title">Local alert</h2><span class="state-badge" id="alarm-state">DISARMED</span></div>
+            <div class="alarm-copy"><span class="alert-glyph" id="alert-glyph" aria-hidden="true">—</span><h3 id="alarm-title">Not armed</h3><p id="alarm-detail">Calibration is required before arming.</p></div>
+            <div class="alarm-actions" id="alarm-actions" hidden><button class="button alarm-button" id="acknowledge" type="button">Acknowledge alarm</button><p>Acknowledge the event and keep monitoring armed. A quiet interval is required before another alert.</p></div>
+            <div class="calibration-block"><div class="calibration-label"><label for="calibration-progress">Empty-area calibration</label><span id="calibration-percent">0%</span></div><progress id="calibration-progress" max="1" value="0">0%</progress><p id="calibration-detail">Not calibrated</p></div>
+            <div class="control-buttons"><button class="button secondary" id="calibrate" type="button" disabled>Calibrate</button><button class="button primary" id="arm" type="button" disabled>Arm alert</button><button class="button secondary" id="disarm" type="button" disabled hidden>Disarm</button></div>
+            <p class="control-hint" id="control-hint">Keep the area empty during calibration.</p>
+            <details class="tuning"><summary>Threshold tuning</summary><form id="threshold-form"><label for="threshold-input">Activity threshold</label><div class="input-row"><input id="threshold-input" type="number" min="0.1" max="100" step="any" required disabled><button class="button secondary" id="threshold-save" type="submit" disabled>Apply</button></div><p class="field-help">Available only while disarmed. Changing this value requires calibration again. It is a tuning hypothesis, not a certainty.</p></form></details>
+            <div class="sound-settings"><button class="text-button" id="sound-test" type="button">Test sound</button><p id="sound-detail">Sound is off. Enable it here on this device. Keep this page open for browser alerts.</p></div>
+            <div class="test-tools" id="test-tools" hidden><p class="eyebrow">SYNTHETIC TEST ONLY</p><button class="button secondary" id="test-motion" type="button" disabled>Inject test motion <span aria-hidden="true">↗</span></button><p>Generates synthetic activity, not a real entrance event. Only an armed detector can trigger an alarm.</p></div>
+          </aside>
+        </div>
+
+        <p class="action-message" id="action-message" role="status"></p>
+        <section class="history-section" aria-labelledby="history-title"><div class="section-heading"><h2 id="history-title">Event history</h2><span class="small-label" id="event-count">0 EVENTS</span></div><p class="history-empty" id="history-empty">No events in this session. An empty history does not mean the area is unoccupied.</p><ol id="events" class="events" aria-label="Recent motion events"></ol></section>
+        <footer class="dashboard-footer"><div><span class="footer-label">CALL HOOK</span><span id="call-status">Disabled</span><p id="call-detail">No real calls enabled.</p></div><div><span class="footer-label">RECORDING</span><span id="recording-status">—</span><p id="recording-detail"></p></div><p class="limitations" id="limitations">Motion near entrance only. Crossing discrimination is not validated. No detected motion does not mean unoccupied.</p></footer>
+      </div>
+    </main>
+    <footer class="site-footer"><span>THRESHOLD / LOCAL-FIRST</span><span>Observe the signal. Respect its limits.</span></footer>
+    <div class="sr-only" id="announcer" role="status" aria-live="polite" aria-atomic="true"></div>
+  </div>
+</body>
+</html>

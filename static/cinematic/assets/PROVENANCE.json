@@ -1,0 +1,17 @@
+{
+  "native-test.png": {
+    "source": "evidence/iphone/visual-polish-20260912-151312/Gate-4-attachments/D973D747-D329-4E98-B005-4CBDCBF27C7C.png",
+    "classification": "Recorded iPhone Simulator interface; synthetic TEST alarm, not a physical device or sensing proof",
+    "sha256": "ef0af6741815d46b18f016a4559f124eee876ed7a1317b02342ed15c199e8dc3"
+  },
+  "console-test.png": {
+    "source": "evidence/ui/desktop-alarm.png",
+    "classification": "Recorded browser interface; synthetic TEST alarm, not current live data",
+    "sha256": "90959f5df63112f7f6d82673626439bb007cae2bcc7b3a6b6166c3d7775429a8"
+  },
+  "three": {
+    "version": "0.180.0",
+    "license": "MIT; vendor/LICENSE.three",
+    "modification": "three.tsl.js import changed from three/webgpu to ./three.webgpu.js for offline direct-module loading"
+  }
+}

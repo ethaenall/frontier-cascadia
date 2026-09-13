@@ -1,0 +1,71 @@
+name: Threshold
+options:
+  bundleIdPrefix: local.prototype
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+packages:
+  ThresholdDomain:
+    path: Domain
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    TARGETED_DEVICE_FAMILY: "1"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Manual
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    CLANG_ENABLE_MODULES: YES
+    MARKETING_VERSION: "0.2.0"
+    CURRENT_PROJECT_VERSION: "2"
+targets:
+  Threshold:
+    type: application
+    platform: iOS
+    sources: [App]
+    dependencies:
+      - package: ThresholdDomain
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: local.prototype.threshold
+        # Preserve the development team already selected by the user in Xcode.
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "Apple Development"
+        DEVELOPMENT_TEAM: ""
+        PROVISIONING_PROFILE_SPECIFIER: ""
+        TARGETED_DEVICE_FAMILY: "1"
+        INFOPLIST_FILE: App/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        SUPPORTS_MACCATALYST: NO
+        SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
+  ThresholdAppTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [AppTests]
+    dependencies:
+      - target: Threshold
+      - package: ThresholdDomain
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: local.prototype.threshold.apptests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Threshold.app/Threshold"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        TARGETED_DEVICE_FAMILY: "1"
+  ThresholdUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [UITests]
+    dependencies:
+      - target: Threshold
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: local.prototype.threshold.uitests
+        GENERATE_INFOPLIST_FILE: YES
+schemes:
+  Threshold:
+    build:
+      targets:
+        Threshold: all
+    test:
+      targets: [ThresholdAppTests,ThresholdUITests]
+      gatherCoverageData: false

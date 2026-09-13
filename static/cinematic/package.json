@@ -1,0 +1,13 @@
+{
+  "name": "threshold-cinematic",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local, presenter-controlled Threshold cinematic demo",
+  "scripts": {
+    "test": "node tests/presenter.mjs"
+  },
+  "dependencies": {
+    "three": "0.180.0"
+  }
+}
